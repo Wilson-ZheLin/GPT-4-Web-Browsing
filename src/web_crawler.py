@@ -1,112 +1,80 @@
 import requests
 import re
 from bs4 import BeautifulSoup
-from datetime import datetime
 
-def get_webpage_html(url: str):
-    
-    # User-Agent for Windows, it simulates browser-like access
-    headers = {
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-        'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-    }
-    
-    # User-Agent for MacOS:
-    headers = {
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-        'sec-ch-ua': '"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-    }
-    
-    response = requests.Response() # Create an empty Response object
+class WebScraper:
+    def __init__(self, user_agent='macOS'):
+        # Initialize the scraper with a user agent (default is 'macOS')
+        self.headers = self._get_headers(user_agent)
 
-    # PDF file takes so long to download, usually > 15s, so skip it for now
-    if(url.endswith(".pdf")):
-        return response
+    def _get_headers(self, user_agent):
+        # Private method to get headers for the request based on the specified user agent
+        if user_agent == 'macOS':
+            # Headers for macOS user agent
+            return {
+                'Upgrade-Insecure-Requests': '1',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+                'sec-ch-ua': '"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"macOS"',
+            }
+        else:
+            # Headers for Windows user agent
+            return {
+                'Upgrade-Insecure-Requests': '1',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+                'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+            }
 
-    try:
-        response = requests.get(url, headers=headers, timeout=8) # the maximum access time is 8s, otherwise discard
-        response.encoding = "utf-8"
+    def get_webpage_html(self, url):
+        # Fetch the HTML content of a webpage from a given URL
+        response = requests.Response()  # Create an empty Response object
+        if url.endswith(".pdf"):
+            # Skip PDF files which are time consuming
+            return response
 
-    except requests.exceptions.Timeout:
-        return response
-    
-    try:
+        try:
+            # Attempt to get the webpage content with specified headers and timeout
+            response = requests.get(url, headers=self.headers, timeout=8)
+            response.encoding = "utf-8"
+        except requests.exceptions.Timeout:
+            # Return an empty response in case of a timeout
+            return response
+
         if response.status_code != 200:
-            # for debug only:
-            raise Exception("Web-scraper error in get_webpage_page_html fn... error code is: {errcode}; error reason is: {errreason} at url: {url}\n".format(
-                errcode=response.status_code, errreason=response.reason, url=url))
+            # Return the response only if the status code is 200 (OK)
+            return response
         return response
-    
-    except Exception as e:
-        # for debug only:
-        # with open("./web-scraper-logs/error.txt", "a+") as error_file:
-        #     error_file.write(str(e))
-        return response
-    
-def convert_html_to_soup_obj(html: requests.Response):
-    html_string = html.text    
-    # html_soup = BeautifulSoup(html_string, "html.parser")
-    html_soup = BeautifulSoup(html_string, "lxml")
-    return html_soup
 
-def convert_soup_to_text(html_soup: BeautifulSoup):
-    html_text_content = html_soup.get_text(strip=True)
-    return html_text_content
+    def convert_html_to_soup(self, html):
+        # Convert the HTML string to a BeautifulSoup object for parsing
+        html_string = html.text
+        return BeautifulSoup(html_string, "lxml")
 
-def extract_page_title_as_text(html_soup: BeautifulSoup):
-    html_page_title = html_soup.head.title.string
-    return html_page_title + "\n"
+    def extract_main_content(self, html_soup, rule=0):
+        # Extract the main content from a BeautifulSoup object
+        main_content = []
+        tag_rule = re.compile("^(h[1-6]|p|div)" if rule == 1 else "^(h[1-6]|p)")
+        # Iterate through specified tags and collect their text
+        for tag in html_soup.find_all(tag_rule):
+            tag_text = tag.get_text().strip()
+            if tag_text and len(tag_text.split()) > 10:
+                main_content.append(tag_text)
+        return "\n".join(main_content).strip()
 
-def extract_and_format_main_content_as_text(html_soup: BeautifulSoup, rule: int):
-    main_content = []
+    def scrape_url(self, url, rule=0):
+        # Public method to scrape a URL and extract its main content
+        webpage_html = self.get_webpage_html(url)
+        soup = self.convert_html_to_soup(webpage_html)
+        main_content = self.extract_main_content(soup, rule)
+        return main_content
 
-    if(rule == 1):
-        tag_rule = re.compile("^(h[1-6]|p|div)") # it'll only be called when the webpage is very non-standard
-    else:
-        tag_rule = re.compile("^(h[1-6]|p)") # default rule
-
-    # Only the <h1-h6> and <p> tags in an HTML are extracted:
-    for tag in html_soup.find_all(tag_rule):
-        tag_text = tag.get_text()
-        tag_text = tag_text.lstrip().rstrip()
-
-        # Filter out too short content:
-        if (tag_text and len(tag_text.split()) > 10):
-            main_content.append(tag_text)
-
-    main_content_text = "\n".join(main_content)
-    main_content_text = re.sub("\n{2,}", "\n", main_content_text) # remove consecutive blank lines
-
-    return main_content_text
-
-def extract_time_stamp(html_soup: BeautifulSoup):
-    time_tag = html_soup.find("time")
-
-    if time_tag:
-        time_stamp = time_tag.get("datetime")
-        # datetime_obj = datetime.fromisoformat(time_stamp)
-        return time_stamp
-    else:
-        return None
-
-def extract_page_contents(url: str, rule: int):
-    webpage_html = get_webpage_html(url)
-    soup = convert_html_to_soup_obj(webpage_html)
-    main_content = extract_and_format_main_content_as_text(soup, rule)
-    time_stamp = extract_time_stamp(soup)
-    return main_content, time_stamp
-
-# Testing this code:
+# Example usage
 if __name__ == "__main__":
-    test_url = "https://en.wikipedia.org/wiki/Apple_Inc." # note this site requires a VPN
-    main_content, time_stamp = extract_page_contents(test_url, 0)
-    
+    scraper = WebScraper(user_agent='macOS')
+    test_url = "https://en.wikipedia.org/wiki/Apple_Inc."
+    main_content = scraper.scrape_url(test_url)
     print(main_content)
-    print(time_stamp)
     
