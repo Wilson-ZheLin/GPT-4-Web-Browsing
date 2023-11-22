@@ -31,9 +31,9 @@ class EmbeddingRetriever:
             texts,
 
             # Select one of the models from OpenAIEmbeddings and text2vec-base-chinese to suit your needs:
-
-            SentenceTransformerEmbeddings(model_name="shibing624/text2vec-base-chinese")
-            # OpenAIEmbeddings(model='text-embedding-ada-002', openai_api_key=self.config["openai_api_key"])
+            
+            OpenAIEmbeddings(model='text-embedding-ada-002', openai_api_key=self.config["openai_api_key"])
+            # SentenceTransformerEmbeddings(model_name="shibing624/text2vec-base-chinese")
         )
 
         # Create a retriever from the database to find relevant documents
