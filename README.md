@@ -23,16 +23,16 @@ Getting Started
 
 ### Prerequisites
 
-To run `main.py`, you'll need:
-* Python 3.11.5 (not necessarily the same)
+To run `main.py` or `llm_answer.py`, you'll need:
 * Stable connection to OpenAI (may be instability in China)
+* [Python 3.11.5](https://www.python.org/downloads/) (not necessarily the same)
 * [Serper API Key](https://serper.dev)
-* [OpenAI API Key](https://openai.com/blog/openai-api)
     * Serper: 2,500 free queries (very adequate and fast)
+* [OpenAI API Key](https://openai.com/blog/openai-api)
     * OpenAI: First $5 is free (GPT-3.5-turbo-16k  recommended)
     
 ### Installation
-1. Install the required packages (consider `-i https://pypi.tuna.tsinghua.edu.cn/simple` in China):
+1. Install the required packages (consider adding `-i https://pypi.tuna.tsinghua.edu.cn/simple` in China):
 
 ```
 pip install -r requirements.txt
