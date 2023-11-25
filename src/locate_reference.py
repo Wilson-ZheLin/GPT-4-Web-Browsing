@@ -51,7 +51,7 @@ class ReferenceLocator:
         index_pattern = r'\[\d+\]'
         index_list = re.findall(index_pattern, answer_references)
 
-        url_pattern = r'\[(https://[^\]]+)\]'
+        url_pattern = r'https://[^\n]+'
         url_list = re.findall(url_pattern, answer_references)
 
         source_pattern = r'Quoted sentence: (.*?)\n'
@@ -75,7 +75,7 @@ class ReferenceLocator:
         # Retrieve the web information (titles, timestamps, snippets) for each reference
         url_index_list = self.serper_response['links']
         reference_cards = [{'titles': self.serper_response['titles'][url_index_list.index(reference['url'])],
-                            'time': self.serper_response['time'][url_index_list.index(reference['url'])],
+                            # 'time': self.serper_response['time'][url_index_list.index(reference['url'])],
                             'snippets': self.serper_response['snippets'][url_index_list.index(reference['url'])],
                             **reference} for reference in sentences_with_references]
 
@@ -84,7 +84,7 @@ class ReferenceLocator:
 # Example usage
 if __name__ == "__main__":
     
-    # Below is an input example to demonstrate the effect
+    # Below is an answer example to demonstrate the effect
     gpt_answer = r"""
 Tencent Games, a leading Chinese game developer and publisher, has been making significant strides in expanding its global market share. While China remains the largest gaming market for Tencent, the company has been actively pursuing international growth and aims to have half of its players overseas [1]. However, as of 2020, only 21% of Tencent's total games revenue came from outside China [1]. 
 
@@ -99,16 +99,16 @@ While Tencent continues to focus on mobile gaming, it recognizes the potential f
 In conclusion, Tencent Games has been steadily expanding its global market share, with a focus on increasing its player base outside of China. The company's revenue from its gaming business has been growing, and it remains a dominant player in the Chinese gaming market. With popular games and strategic investments, Tencent is well-positioned to continue its global gaming domination [1].
 
 References:
-[1] URL: [https://nikopartners.com/tencents-silent-pursuit-of-global-gaming-domination/]
+[1] URL: https://nikopartners.com/tencents-silent-pursuit-of-global-gaming-domination/
     Quoted sentence: While China is the largest gaming market in the world with 33% of PC and mobile games revenue derived from mainland China gamers, Tencent wants to be a global giant. The firm stated that its target is to have half of its players overseas, but we note that only 21% of its total games revenue in 2020 was from outside China.
     
-[2] URL: [https://www.yicaiglobal.com/news/20230605-01-tencent-netease-make-80-of-chinas-top-10-game-developers-operating-revenue-in-first-quarter]
+[2] URL: https://www.yicaiglobal.com/news/20230605-01-tencent-netease-make-80-of-chinas-top-10-game-developers-operating-revenue-in-first-quarter
     Quoted sentence: Tencent accounted for about half of domestic market revenue in the quarter, up from 40 percent a year earlier. The market share of small and mid-sized game firms contracted further.
     
-[3] URL: [https://www.pocketgamer.biz/news/81670/tencent-and-netease-dominated-among-chinas-top-developers-in-q1/]
+[3] URL: https://www.pocketgamer.biz/news/81670/tencent-and-netease-dominated-among-chinas-top-developers-in-q1/
     Quoted sentence: Tencent accounted for roughly 50% of domestic market revenue for the quarter, compared to 40% in Q1 2022. The company’s operating revenue rose 11% to 48.3 billion yuan ($6.8 billion), while domestic revenue rose 6.4% to 35.1 billion yuan ($4.93 billion). Overseas revenue rose by a record 25%, hitting 13.2 billion yuan ($1.86 billion).
     
-[4] URL: [https://webtribunal.net/blog/tencent-stats/]
+[4] URL: https://webtribunal.net/blog/tencent-stats/
     Quoted sentence: Honor of Kings, Call of Duty Mobile, Moonlight Blade Mobile, Valorant, and Clash of Clans, are the main games driving the segment’s growth, both in the Chinese and the international market.
     """
 
