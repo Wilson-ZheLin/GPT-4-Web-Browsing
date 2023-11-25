@@ -15,13 +15,13 @@ Features
 
 * Automatically adjusts web search and response **language** based on input
 
-* Multi-threading to extract main content from web pages, reducing embedding costs
+* **Multi-threading** to extract main content from web pages, reducing embedding costs
 
 * Semantic search with [OpenAI Embedding](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings) and [ChromaDB](https://www.trychroma.com)
 
 * LLM responses generated with references and web sources
 
-* Supports customization of models, AI roles, and output formats
+* Supports customization of [models](https://platform.openai.com/docs/models), **AI roles**, and **output formats**
 
 * Matches each quoted sentence in the AI’s response to the **title, snippet, and link of the source website**
 
