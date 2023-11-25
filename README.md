@@ -29,6 +29,8 @@ Features
 Demo
 ----
 
+https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/assets/145169519/6406d20c-efec-4cb9-ad51-510f51ce5212
+
 
 Architecture
 ------------
