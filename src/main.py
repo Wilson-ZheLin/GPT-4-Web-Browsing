@@ -1,7 +1,9 @@
 from fetch_web_content import WebContentFetcher
 from retrieval import EmbeddingRetriever
 from llm_answer import GPTAnswer
+from locate_reference import ReferenceLocator
 import time
+import json
 
 if __name__ == "__main__":
     query = "What happened to Silicon Valley Bank"
@@ -27,3 +29,11 @@ if __name__ == "__main__":
     answer = ai_message_obj.content + '\n'
     end = time.time()
     print("\n\nGPT Answer time:", end - start, "s")
+
+    # Optional Part: display the reference sources of the quoted sentences in LLM's answer
+    # 
+    # print("\n\n", "="*30, "Refernece Cards: ", "="*30, "\n")
+    # locator = ReferenceLocator(answer, serper_response)
+    # reference_cards = locator.locate_source()
+    # json_formatted_cards = json.dumps(reference_cards, indent=4)
+    # print(json_formatted_cards)
