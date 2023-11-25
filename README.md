@@ -11,13 +11,13 @@ Please give me a star if you like it! 🌟
 
 Features
 --------
-* Rapid real-time web search through [**Serper (Google API)**](https://serper.dev)
+* Rapid real-time web search through [Serper (Google API)](https://serper.dev)
 
 * Automatically adjusts web search and response **language** based on input
 
 * Multi-threading to extract main content from web pages, reducing embedding costs
 
-* Semantic search with [**OpenAI Embedding**](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings) and [**ChromaDB**](https://www.trychroma.com)
+* Semantic search with [OpenAI Embedding](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings) and [ChromaDB](https://www.trychroma.com)
 
 * LLM responses generated with references and web sources
 
