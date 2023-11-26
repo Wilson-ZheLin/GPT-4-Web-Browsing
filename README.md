@@ -35,6 +35,8 @@ https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/assets/145169519/6406d20c-ef
 Architecture
 ------------
 
+![Project Architecture](https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/assets/145169519/043990c8-7d72-48a4-b4be-de4dc58caed4)
+
 
 Getting Started
 ---------------
