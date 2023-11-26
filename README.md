@@ -26,16 +26,16 @@ Features
 * Matches each quoted sentence in the AI’s response to the **title, snippet, and link of the source website**
 
 
-Demo
-----
-
-https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/assets/145169519/6406d20c-efec-4cb9-ad51-510f51ce5212
-
-
 Architecture
 ------------
 
 ![Project Architecture](https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/assets/145169519/043990c8-7d72-48a4-b4be-de4dc58caed4)
+
+
+Demo
+----
+
+https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/assets/145169519/6406d20c-efec-4cb9-ad51-510f51ce5212
 
 
 Getting Started
