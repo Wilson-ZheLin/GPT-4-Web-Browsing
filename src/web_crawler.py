@@ -40,12 +40,9 @@ class WebScraper:
             response = requests.get(url, headers=self.headers, timeout=8)
             response.encoding = "utf-8"
         except requests.exceptions.Timeout:
-            # Return an empty response in case of a timeout
+            # Add timeout exception handling here
             return response
-
-        if response.status_code != 200:
-            # Return the response only if the status code is 200 (OK)
-            return response
+        
         return response
 
     def convert_html_to_soup(self, html):
