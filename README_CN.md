@@ -1,23 +1,25 @@
-集成实时网页浏览功能的GPT-4
+集成实时网页浏览功能的 GPT-4
 ========================
+
+Languages / 语言: [中文](https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/blob/main/README_CN.md) | [English](https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/tree/main)
 
 GPT-4的知识库涉及领域丰富、涵盖范围广泛，但是一直有一定的实效滞后，例如最新的GPT-4知识更新截止于2023年4月。为了解决这个限制，我们将实时的网络浏览集成到了 GPT-4 中，将具有时效性的信息结合大语言模型先进的语言处理能力，并且速度要快于网页端 GPT-4 自带的网络浏览。🔗
 
-您可以将这个项目看作 **new Bing** 和 **Bard** 的一个小型实现，结合了Q&A和搜索引擎的能力。🌟
+您可以将这个项目看作 `new Bing` 和 `Bard` 的一个小型实现，结合了Q&A和搜索引擎的能力。🌟
 
 功能
 ---
 * 通过 [Serper (Google API)](https://serper.dev) 进行快速实时网络搜索
 
-* 根据输入自动调整**搜索地区**和**响应语言**
+* 根据输入自动调整 **搜索地区** 和 **响应语言**
 
-* **多线程** 提取网页主体内容，减少token数量的花费
+* **多线程** 提取网页主体内容，减少 token 数量的花费
 
 * 使用 [OpenAI Embedding](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings) 和 [ChromaDB](https://www.trychroma.com) 进行语义搜索
 
 * LLM 生成的响应中附带参考列表和网络信息的来源
 
-* 支持自定义 [模型](https://platform.openai.com/docs/models), **AI的角色**, 和**输出格式**
+* 支持自定义[模型](https://platform.openai.com/docs/models)，**AI的角色**，和**输出格式**
 
 * 将 LLM 响应中的每个引用句子与源网站的**标题**、**摘要**和**链接**匹配
 

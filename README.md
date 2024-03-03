@@ -1,7 +1,9 @@
 GPT-4 Enhanced with Real-Time Web Browsing
 ==========================================
 
-GPT-4's extensive knowledge base covers a wide range of topics but is limited to historical data. To address this, we've integrated web browsing into GPT-4, connecting its advanced language processing to the internet. 
+Languages / 语言: [English](https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/tree/main) | [中文](https://github.com/Wilson-ZheLin/GPT-4-Web-Browsing/blob/main/README_CN.md)
+
+GPT-4's extensive knowledge base covers a wide range of topics but is limited to historical data. To address this, we've integrated web browsing into GPT-4, connecting its advanced language processing to the internet. 🔗
 
 This upgrade enables access to the latest information, enhancing the model's relevance and efficiency in real-time data retrieval, and is much faster than web-browsing on the GPT web page.
 
