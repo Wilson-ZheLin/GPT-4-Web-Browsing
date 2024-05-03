@@ -6,7 +6,8 @@ import time
 import json
 
 if __name__ == "__main__":
-    query = "What happened to Silicon Valley Bank"
+    query = input("Enter your search query: ")
+    # query = "What happened to Silicon Valley Bank"
     output_format = "" # User can specify output format
     profile = "" # User can define the role for LLM
 
