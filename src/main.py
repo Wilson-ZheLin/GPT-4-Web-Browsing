@@ -4,9 +4,12 @@ from llm_answer import GPTAnswer
 from locate_reference import ReferenceLocator
 import time
 import json
+import logging 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO,filename="gptweb.log", format='%(asctime)s - %(levelname)s - %(message)s')
     query = input("Enter your search query: ")
+    logging.info(query)
     # query = "What happened to Silicon Valley Bank"
     output_format = "" # User can specify output format
     profile = "" # User can define the role for LLM
@@ -21,6 +24,7 @@ if __name__ == "__main__":
     content_processor = GPTAnswer()
     formatted_relevant_docs = content_processor._format_reference(relevant_docs_list, serper_response['links'])
     print(formatted_relevant_docs)
+    logging.info(formatted_relevant_docs)
 
     # Measure the time taken to get an answer from the GPT model
     start = time.time()
@@ -28,6 +32,7 @@ if __name__ == "__main__":
     # Generate answer from ChatOpenAI
     ai_message_obj = content_processor.get_answer(query, formatted_relevant_docs, serper_response['language'], output_format, profile)
     answer = ai_message_obj.content + '\n'
+    logging.info(answer)
     end = time.time()
     print("\n\nGPT Answer time:", end - start, "s")
 
