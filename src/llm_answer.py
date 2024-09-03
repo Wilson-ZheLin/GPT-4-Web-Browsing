@@ -21,14 +21,14 @@ class GPTAnswer:
 
     def _format_reference(self, relevant_docs_list, link_list):
         # Format the references from the retrieved documents for use in the prompt
-        reference_url_list = [(relevant_docs_list[i].metadata)['url'] for i in range(self.TOP_K)]
-        reference_content_list = [relevant_docs_list[i].page_content for i in range(self.TOP_K)]
+        reference_url_list = [(relevant_docs_list[i].metadata)['url'] for i in range(min(self.TOP_K, len(relevant_docs_list)))]
+        reference_content_list = [relevant_docs_list[i].page_content for i in range(min(self.TOP_K, len(relevant_docs_list)))]
         reference_index_list = [link_list.index(link)+1 for link in reference_url_list]
         rearranged_index_list = self._rearrange_index(reference_index_list)
 
         # Create a formatted string of references
         formatted_reference = "\n"
-        for i in range(self.TOP_K):
+        for i in range(min(self.TOP_K, len(relevant_docs_list))):
             formatted_reference += ('Webpage[' + str(rearranged_index_list[i]) + '], url: ' + reference_url_list[i] + ':\n' + reference_content_list[i] + '\n\n\n')
         return formatted_reference
 
