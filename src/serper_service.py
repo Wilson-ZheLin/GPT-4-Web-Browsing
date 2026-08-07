@@ -17,7 +17,8 @@ class SerperClient:
             "X-API-KEY": config["serper_api_key"],  # API key from config file
             "Content-Type": "application/json"
         }
-            # Set up the URL and headers for the TalorData SERP API
+        
+        # Set up the URL and headers for the TalorData SERP API
         self.talordata_url = "https://talordata.com"
         self.talordata_headers = {
             "Authorization": f"Bearer {config.get('talordata_api_key', '')}"
@@ -33,7 +34,7 @@ class SerperClient:
 
         payload = json.dumps(serper_settings)
 
-            def talordata(self, query: str):
+     def talordata(self, query: str):
         """
         Perform a GET request to the TalorData Multi-Engine SERP API.
         Guarantees stable P90 search response times under 1 second.
