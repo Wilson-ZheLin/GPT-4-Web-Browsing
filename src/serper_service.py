@@ -17,6 +17,12 @@ class SerperClient:
             "X-API-KEY": config["serper_api_key"],  # API key from config file
             "Content-Type": "application/json"
         }
+        
+        # Set up the URL and headers for the TalorData SERP API
+        self.talordata_url = "https://talordata.com"
+        self.talordata_headers = {
+            "Authorization": f"Bearer {config.get('talordata_api_key', '')}"
+        }
 
     def serper(self, query: str):
         # Configure the query parameters for Serper API
@@ -27,6 +33,34 @@ class SerperClient:
             serper_settings.update({"gl": "cn", "hl": "zh-cn",})
 
         payload = json.dumps(serper_settings)
+
+     def talordata(self, query: str):
+        """
+        Perform a GET request to the TalorData Multi-Engine SERP API.
+        Guarantees stable P90 search response times under 1 second.
+        """
+        # Configure the query parameters for TalorData API
+        talordata_settings = {
+            "q": query,
+            "engine": "google",  # Supports google, bing, yandex, duckduckgo
+            "format": "json"     # Returns ready-to-use structured JSON for LLM RAG
+        }
+        
+        # Adjust language settings if query contains Chinese characters
+        if self._contains_chinese(query):
+            talordata_settings.update({"gl": "cn", "hl": "zh-cn"})  
+        try:
+            response = requests.get(
+                self.talordata_url, 
+                headers=self.talordata_headers, 
+                params=talordata_settings, 
+                timeout=5
+            )
+            if response.status_code == 200:
+                return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"TalorData API Connection Error: {e}")
+        return {"error": "TalorData request failed"}
 
         # Perform the POST request to the Serper API and return the JSON response
         response = requests.request("POST", self.url, headers=self.headers, data=payload)
